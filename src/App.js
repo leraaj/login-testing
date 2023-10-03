@@ -1,24 +1,66 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import { useState } from "react";
 
 function App() {
+  const [username, setUsername] = useState();
+  const [password, setPassword] = useState();
+  const loginAPI = "https://darkshot-server.onrender.com/api/user/login";
+  const handleUsername = (e) => {
+    setUsername(e.target.value);
+  };
+  const handlePassword = (e) => {
+    setPassword(e.target.value);
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await fetch(loginAPI, {
+      method: "post",
+      credentials: "include",
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify({
+        username: username,
+        password: password,
+      }),
+    })
+      .then(async (response) => {
+        const data = await response.json();
+        if (response.ok) {
+          alert("Cookie set");
+        } else {
+          // Handle invalid credentials or other errors
+          alert(data.message);
+        }
+      })
+      .catch((error) => {
+        alert(error.message);
+        console.log({ error: error.message });
+      });
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div>
+        <p>Login</p>
+        <br />
+        <input
+          type="text"
+          placeholder="Enter username"
+          value={username || null}
+          onChange={handleUsername}
+        />
+        <br />
+        <input
+          type="password"
+          placeholder="Enter password"
+          value={password || null}
+          onChange={handlePassword}
+        />
+      </div>
+    </>
   );
 }
 
