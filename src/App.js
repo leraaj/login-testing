@@ -46,19 +46,22 @@ function App() {
       <div>
         <p>Login</p>
         <br />
-        <input
-          type="text"
-          placeholder="Enter username"
-          value={username || null}
-          onChange={handleUsername}
-        />
-        <br />
-        <input
-          type="password"
-          placeholder="Enter password"
-          value={password || null}
-          onChange={handlePassword}
-        />
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            placeholder="Enter username"
+            value={username || ""}
+            onChange={handleUsername}
+          />
+          <br />
+          <input
+            type="password"
+            placeholder="Enter password"
+            value={password || ""}
+            onChange={handlePassword}
+          />
+          <button type="submit">Login</button>
+        </form>
       </div>
     </>
   );
